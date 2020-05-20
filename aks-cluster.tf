@@ -1,4 +1,4 @@
-resource "random_pet" "prefix" {}
+#resource "random_pet" "prefix" {}
 
 variable "appId" {
 }
@@ -11,7 +11,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "default" {
-  name     = "${random_pet.prefix.id}-rg"
+  name     = "test-name-1rg"
   location = "West US 2"
 
   tags = {
@@ -20,11 +20,12 @@ resource "azurerm_resource_group" "default" {
 }
 
 resource "azurerm_kubernetes_cluster" "default" {
-  name                = "${random_pet.prefix.id}-aks"
+  name                = "test-name-1aks"
   location            = azurerm_resource_group.default.location
   resource_group_name = azurerm_resource_group.default.name
-  dns_prefix          = "${random_pet.prefix.id}-k8s"
+  dns_prefix          = "test-name-1k8s"
 
+  ## Defines the type of VM's used to create the cluster
   agent_pool_profile {
     name            = "default"
     count           = 2
@@ -45,12 +46,4 @@ resource "azurerm_kubernetes_cluster" "default" {
   tags = {
     environment = "Demo"
   }
-}
-
-output "resource_group_name" {
-  value = azurerm_resource_group.default.name
-}
-
-output "kubernetes_cluster_name" {
-  value = azurerm_kubernetes_cluster.default.name
 }
