@@ -1,8 +1,8 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: hello-world-ingress
-  namespace: ingress-basic
+  name: demo-ingress
+  namespace: demo-ingress
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /$1
@@ -16,10 +16,10 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: aks-helloworld
+          serviceName: demo-site-1
           servicePort: 80
-        path: /(.*)
+        path: /demo1(.*)
       - backend:
-          serviceName: ingress-demo
+          serviceName: demo-site-2
           servicePort: 80
-        path: /hello-world-two(/|$)(.*)
+        path: /demo2(/|$)(.*)

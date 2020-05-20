@@ -1,33 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: aks-helloworld
+  name: demo-site-1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: aks-helloworld
+      app: demo-site-1
   template:
     metadata:
       labels:
-        app: aks-helloworld
+        app: demo-site-1
     spec:
       containers:
-      - name: aks-helloworld
+      - name: demo-site-1
         image: neilpeterson/aks-helloworld:v1
         ports:
         - containerPort: 80
         env:
         - name: TITLE
-          value: "Welcome to Azure Kubernetes Service (AKS)"
+          value: "Demo Site 1"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: aks-helloworld
+  name: demo-site-1
 spec:
   type: ClusterIP
   ports:
   - port: 80
   selector:
-    app: aks-helloworld
+    app: demo-site-1
