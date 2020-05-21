@@ -23,5 +23,5 @@ kubectl apply -f demo-ingress.yaml
 #Listing IP - POTENTIAL REMOVAL
 #kubectl get service -l app=nginx-ingress --namespace demo-ingress
 
-# curl -v -k --resolve demo.azure.com:443:40.87.46.190 https://demo.azure.com/demo1
-# curl -v -k --resolve demo.azure.com:443:40.87.46.190 https://demo.azure.com/demo2
+# curl -v -k --resolve demo1.azure.com:443:40.87.46.190 https://demo1.azure.com/demo1
+# curl -v -k --resolve demo1.azure.com:443:40.87.46.190 https://demo1.azure.com/demo2

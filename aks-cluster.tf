@@ -11,7 +11,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "default" {
-  name     = "test-name-1rg"
+  name     = "test-name-rg2"
   location = "West US 2"
 
   tags = {
@@ -20,10 +20,10 @@ resource "azurerm_resource_group" "default" {
 }
 
 resource "azurerm_kubernetes_cluster" "default" {
-  name                = "test-name-1aks"
+  name                = "test-name-aks2"
   location            = azurerm_resource_group.default.location
   resource_group_name = azurerm_resource_group.default.name
-  dns_prefix          = "test-name-1k8s"
+  dns_prefix          = "test-name-k8s2"
 
   ## Defines the type of VM's used to create the cluster
   agent_pool_profile {
