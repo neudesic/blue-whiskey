@@ -17,12 +17,7 @@ resource "azurerm_postgresql_server" "test" {
   location            = var.location
   resource_group_name = var.resource_group_name
 
-  sku {
-    name     = "B_Gen5_2"
-    capacity = 2
-    tier     = "Basic"
-    family   = "Gen5"
-  }
+  sku_name   = "B_Gen5_2"
 
   storage_profile {
     storage_mb            = 5120

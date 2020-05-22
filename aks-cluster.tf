@@ -1,6 +1,7 @@
 #resource "random_pet" "prefix" {}
 provider "azurerm" {
-  version = "~> 1.27.0"
+  version = "~> 2.0.0"
+  features {}
 }
 
 resource "azurerm_resource_group" "default" {
@@ -12,18 +13,26 @@ resource "azurerm_resource_group" "default" {
   }
 }
 
+resource "random_pet" "primary-cluster" {
+  
+}
+
+resource "random_id" "primary-cluster" {
+  byte_length = 10
+}
+
 resource "azurerm_kubernetes_cluster" "default" {
-  name                = "ln-k8s-clstr"
+  name                = "${random_pet.primary-cluster.id}-${random_id.primary-cluster.dec}"
   location            = azurerm_resource_group.default.location
   resource_group_name = azurerm_resource_group.default.name
   dns_prefix          = "ln-k8s-clstr"
 
   ## Defines the type of VM's used to create the cluster
-  agent_pool_profile {
+  default_node_pool {
     name            = "default"
-    count           = 2
+    node_count      = 2
     vm_size         = "Standard_D2_v2"
-    os_type         = "Linux"
+    # os_type         = "Linux"
     os_disk_size_gb = 30
   }
 

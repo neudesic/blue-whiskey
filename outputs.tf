@@ -63,3 +63,7 @@ output "postgresql_admin_login_name" {
 output "postgresql_admin_password" {
   value       = random_password.password.result
 }
+
+output "key_vault_name" {
+  value       = azurerm_key_vault.primary.name
+}
