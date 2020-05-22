@@ -1,3 +1,11 @@
+resource "random_pet" "primary" {
+  
+}
+
+resource "random_id" "primary" {
+  byte_length = 10
+}
+
 resource "random_password" "password" {
   length = 16
   special = true
@@ -5,9 +13,9 @@ resource "random_password" "password" {
 }
 
 resource "azurerm_postgresql_server" "test" {
-  name                = "bluewhiskeypostgresql"
-  location            = azurerm_resource_group.default.location
-  resource_group_name = azurerm_resource_group.default.name
+  name                = "${random_pet.primary.id}-${random_id.primary.dec}"
+  location            = var.location
+  resource_group_name = var.resource_group_name
 
   sku {
     name     = "B_Gen5_2"
@@ -22,15 +30,17 @@ resource "azurerm_postgresql_server" "test" {
     geo_redundant_backup  = "Disabled"
   }
 
-  administrator_login          = "psqladminun"
+  administrator_login          = var.postgresql_admin_name
   administrator_login_password = random_password.password.result
   version                      = "9.5"
   ssl_enforcement              = "Disabled"
+
+  depends_on = [azurerm_resource_group.default]
 }
 
 resource "azurerm_postgresql_database" "testDatabase" {
   name                = "BWDatabase"
-  resource_group_name = azurerm_resource_group.default.name
+  resource_group_name = var.resource_group_name
   server_name         = azurerm_postgresql_server.test.name
   charset             = "UTF8"
   collation           = "English_United States.1252"
@@ -38,8 +48,16 @@ resource "azurerm_postgresql_database" "testDatabase" {
 
 resource "azurerm_postgresql_firewall_rule" "allow_will" {
   name                = "Will_Home"
-  resource_group_name = azurerm_resource_group.default.name
+  resource_group_name = var.resource_group_name
   server_name         = azurerm_postgresql_server.test.name
   start_ip_address    = "107.11.55.188"
   end_ip_address      = "107.11.55.188"
+}
+
+resource "azurerm_postgresql_firewall_rule" "allow_chris_home" {
+  name                = "allow_chris_home_ip"
+  resource_group_name = var.resource_group_name
+  server_name         = azurerm_postgresql_server.test.name
+  start_ip_address    = "24.131.166.180"
+  end_ip_address      = "24.131.166.180"
 }

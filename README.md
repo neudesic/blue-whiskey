@@ -18,11 +18,17 @@ $ az ad sp create-for-rbac --skip-assignment
 }
 ```
 
-Then, replace `terraform.tfvars` values with your `appId` and `password`. 
-Terraform will use these values to provision resources on Azure.
+Then, create a `terraform.override.tfvars` file, and create values with your `appId` and `password`. See `terraform.tfvars` file for reference. 
+When you run any terraform commands add switch for var-file and specify the override file.
 
-After you've done this, initalize your Terraform workspace, which will download 
-the provider and initialize it with the values provided in the `terraform.tfvars` file.
+Examples
+```shell
+$ terraform init -var-file="terraform.override.tfvars" 
+$ terraform plan -out out.tfplan -var-file="terraform.override.tfvars" 
+$ terraform apply out.tfplan -var-file="terraform.override.tfvars" 
+```
+
+
 
 ```shell
 $ terraform init
