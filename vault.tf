@@ -19,6 +19,18 @@ resource "azurerm_key_vault" "primary" {
 
   sku_name = "standard"
 
+# Will's personal object ID
+  access_policy {
+    tenant_id = data.azurerm_client_config.current.tenant_id
+    object_id = "07502c44-43ff-4d84-98d9-8bc5898184a6"
+
+    key_permissions = [ "backup", "create", "decrypt", "delete", "encrypt", "get", "import", "list", "purge","recover", "restore", "sign", "unwrapKey","update", "verify", "wrapKey"]
+
+    secret_permissions = [ "backup", "delete", "get", "list", "purge", "recover", "restore", "set" ]
+
+    storage_permissions = [ "backup", "delete", "deletesas", "get", "getsas", "list", "listsas", "purge", "recover", "regeneratekey", "restore", "set", "setsas", "update" ]
+  }
+
   access_policy {
     tenant_id = data.azurerm_client_config.current.tenant_id
     object_id = data.azurerm_client_config.current.object_id
@@ -39,14 +51,16 @@ resource "azurerm_key_vault" "primary" {
   tags = {
     environment = "Demo"
   }
+
+  depends_on = [azurerm_resource_group.default]
 }
 
-# resource "azurerm_key_vault_secret" "example-secret" {
-#   name         = "secret-sauce"
-#   value        = "szechuan"
-#   key_vault_id = azurerm_key_vault.primary.id
+resource "azurerm_key_vault_secret" "example-secret-bw" {
+  name         = "secret-sauce"
+  value        = "szechuan"
+  key_vault_id = azurerm_key_vault.primary.id
 
-#   tags = {
-#     environment = "Demo"
-#   }
-# }
+  tags = {
+    environment = "Demo"
+  }
+}
