@@ -55,9 +55,46 @@ resource "azurerm_key_vault" "primary" {
   depends_on = [azurerm_resource_group.default]
 }
 
-resource "azurerm_key_vault_secret" "example-secret-bw" {
-  name         = "secret-sauce"
-  value        = "szechuan"
+# resource "azurerm_key_vault_secret" "example-secret-bw" {
+#   name         = "secret-sauce"
+#   value        = "szechuan"
+#   key_vault_id = azurerm_key_vault.primary.id
+
+#   tags = {
+#     environment = "Demo"
+#   }
+# }
+
+resource "azurerm_key_vault_secret" "bw_server_fqdn" {
+  name         = "bw-server-fqdn"
+  value        = azurerm_postgresql_server.test.fqdn
+  key_vault_id = azurerm_key_vault.primary.id
+
+  tags = {
+    environment = "Demo"
+  }
+}
+resource "azurerm_key_vault_secret" "bw_server_port" {
+  name         = "bw-server-port"
+  value        = "5432"
+  key_vault_id = azurerm_key_vault.primary.id
+
+  tags = {
+    environment = "Demo"
+  }
+}
+resource "azurerm_key_vault_secret" "bw_server_admin_login" {
+  name         = "bw-server-admin-login"
+  value        = var.postgresql_admin_name
+  key_vault_id = azurerm_key_vault.primary.id
+
+  tags = {
+    environment = "Demo"
+  }
+}
+resource "azurerm_key_vault_secret" "bw_server_admin_password" {
+  name         = "bw-server-admin-password"
+  value        = random_password.password.result
   key_vault_id = azurerm_key_vault.primary.id
 
   tags = {
