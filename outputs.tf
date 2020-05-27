@@ -4,25 +4,46 @@ output "resource_group_name" {
   value = var.resource_group_name
 }
 
-output "kubernetes_cluster_name" {
-  value = azurerm_kubernetes_cluster.default.name
+#MYSQL OUTPUTS
+output "mysql_port" {
+  description = "The resource id of the MYSQL server"
+  value       = "3306"
 }
 
+output "mysql_server_name" {
+  description = "The name of the MYSQL server"
+  value       = module.mysql-db-config.mysql_server_name
+}
+
+output "mysql_server_fqdn" {
+  description = "The fully qualified domain name (FQDN) of the MYSQL server"
+  value       = module.mysql-db-config.mysql_server_fqdn
+}
+
+output "mysql_admin_login_name" {
+  value       = module.mysql-db-config.mysql_admin_login_name
+}
+
+output "mysql_admin_password" {
+  value       = module.mysql-db-config.mysql_admin_password
+}
+
+#CLUSTER OUTPUTS
+output "kubernetes_cluster_name" {
+  value = module.cluster-config.kubernetes_cluster_name
+}
+
+#VAULT OUTPUTS
+output "key_vault_name" {
+  value = module.vault-config.key_vault_name
+}
 
 # ## Sets lb_ip to our Azure ingress' IP address
 # output "lb_ip" {
 #   value = kubernetes_service.nginx.load_balancer_ingress[0].ip
 # }
 
-output "postgresql_server_name" {
-  description = "The name of the PostgreSQL server"
-  value       = azurerm_postgresql_server.test.name
-}
 
-output "postgresql_server_fqdn" {
-  description = "The fully qualified domain name (FQDN) of the PostgreSQL server"
-  value       = azurerm_postgresql_server.test.fqdn
-}
 
 # output "administrator_login" {
 #   value = "${var.administrator_login}"
@@ -38,10 +59,7 @@ output "postgresql_server_fqdn" {
 #   value       = azurerm_postgresql_server.test.id
 # }
 
-output "postgresql_port" {
-  description = "The resource id of the PostgreSQL server"
-  value       = "5432"
-}
+
 
 /*
 output "database_ids" {
@@ -55,15 +73,3 @@ output "firewall_rule_ids" {
 }
 */
 
-output "postgresql_admin_login_name" {
-  value = var.postgresql_admin_name
-}
-
-
-output "postgresql_admin_password" {
-  value = random_password.password.result
-}
-
-output "key_vault_name" {
-  value = azurerm_key_vault.primary.name
-}

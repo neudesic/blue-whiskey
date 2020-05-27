@@ -1,19 +1,5 @@
-resource "random_pet" "primary" {
-  
-}
-
-resource "random_id" "primary" {
-  byte_length = 10
-}
-
-resource "random_password" "password" {
-  length = 16
-  special = true
-  override_special = "_%@"
-}
-
 resource "azurerm_postgresql_server" "test" {
-  name                = "${random_pet.primary.id}-${random_id.primary.dec}"
+  name                = var.server_name
   location            = var.location
   resource_group_name = var.resource_group_name
 
@@ -26,11 +12,10 @@ resource "azurerm_postgresql_server" "test" {
   }
 
   administrator_login          = var.postgresql_admin_name
-  administrator_login_password = random_password.password.result
+  administrator_login_password = var.postgresql_admin_pass
   version                      = "9.5"
   ssl_enforcement              = "Disabled"
 
-  depends_on = [azurerm_resource_group.default]
 }
 
 resource "azurerm_postgresql_database" "testDatabase" {

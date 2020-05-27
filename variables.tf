@@ -1,3 +1,4 @@
+#MAIN VARIABLES FILE
 variable "appId" {    
 }
 
@@ -12,9 +13,4 @@ variable "resource_group_name" {
 variable "location" {
   description = "The Azure Region in which all resources in this example should be provisioned"
   default = "eastus"  
-}
-
-variable "postgresql_admin_name" {
-    default = "lnadmin"
-  
 }

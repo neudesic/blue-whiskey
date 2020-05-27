@@ -1,7 +1,3 @@
-resource "random_pet" "primary-vault" {
-  length = 2
-}
-
 # resource "random_id" "primary-vault" {
 #   byte_length = 3
 # }
@@ -9,7 +5,7 @@ resource "random_pet" "primary-vault" {
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault" "primary" {
-  name                        = "${random_pet.primary-vault.id}-bw"
+  name                        = var.primary-vault
   location                    = var.location
   resource_group_name         = var.resource_group_name
   enabled_for_disk_encryption = true
@@ -45,56 +41,97 @@ resource "azurerm_key_vault" "primary" {
   network_acls {
     default_action = "Deny"
     bypass         = "AzureServices"
-    ip_rules       = ["107.11.55.188", "24.131.166.180"]
+    ip_rules       = ["107.11.55.188/32", "24.131.166.180/32"]
   }
 
   tags = {
     environment = "Demo"
   }
 
-  depends_on = [azurerm_resource_group.default]
+  depends_on = [var.resource_group_name]
 }
 
-# resource "azurerm_key_vault_secret" "example-secret-bw" {
-#   name         = "secret-sauce"
-#   value        = "szechuan"
-#   key_vault_id = azurerm_key_vault.primary.id
-
-#   tags = {
-#     environment = "Demo"
-#   }
-# }
-
+#secret_name_1
 resource "azurerm_key_vault_secret" "bw_server_fqdn" {
-  name         = "bw-server-fqdn"
-  value        = azurerm_postgresql_server.test.fqdn
+  name         = var.secret_name_1
+  value        = var.secret_value_1
   key_vault_id = azurerm_key_vault.primary.id
 
   tags = {
     environment = "Demo"
   }
 }
+
+#secret_name_2
 resource "azurerm_key_vault_secret" "bw_server_port" {
-  name         = "bw-server-port"
-  value        = "5432"
+  name         = var.secret_name_2
+  value        = var.secret_value_2
   key_vault_id = azurerm_key_vault.primary.id
 
   tags = {
     environment = "Demo"
   }
 }
+
+#secret_name_3
 resource "azurerm_key_vault_secret" "bw_server_admin_login" {
-  name         = "bw-server-admin-login"
-  value        = var.postgresql_admin_name
+  name         = var.secret_name_3
+  value        = var.secret_value_3
   key_vault_id = azurerm_key_vault.primary.id
 
   tags = {
     environment = "Demo"
   }
 }
+
+#secret_name_4
 resource "azurerm_key_vault_secret" "bw_server_admin_password" {
-  name         = "bw-server-admin-password"
-  value        = random_password.password.result
+  name         = var.secret_name_4
+  value        = var.secret_value_4
+  key_vault_id = azurerm_key_vault.primary.id
+
+  tags = {
+    environment = "Demo"
+  }
+}
+
+#secret_name_5
+resource "azurerm_key_vault_secret" "bw_server_fqdn_mysql" {
+  name         = var.secret_name_5
+  value        = var.secret_value_5
+  key_vault_id = azurerm_key_vault.primary.id
+
+  tags = {
+    environment = "Demo"
+  }
+}
+
+#secret_name_6
+resource "azurerm_key_vault_secret" "bw_server_port_mysql" {
+  name         = var.secret_name_6
+  value        = var.secret_value_6
+  key_vault_id = azurerm_key_vault.primary.id
+
+  tags = {
+    environment = "Demo"
+  }
+}
+
+#secret_name_7
+resource "azurerm_key_vault_secret" "bw_server_admin_login_mysql" {
+  name         = var.secret_name_7
+  value        = var.secret_value_7
+  key_vault_id = azurerm_key_vault.primary.id
+
+  tags = {
+    environment = "Demo"
+  }
+}
+
+#secret_name_8
+resource "azurerm_key_vault_secret" "bw_server_admin_password_mysql" {
+  name         = var.secret_name_8
+  value        = var.secret_value_8
   key_vault_id = azurerm_key_vault.primary.id
 
   tags = {
