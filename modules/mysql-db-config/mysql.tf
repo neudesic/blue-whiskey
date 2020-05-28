@@ -31,3 +31,13 @@ resource "azurerm_mysql_firewall_rule" "allow_chris_home" {
   start_ip_address    = "24.131.166.180"
   end_ip_address      = "24.131.166.180"
 }
+
+/*
+resource "azurerm_mysql_firewall_rule" "allow_kubernetes_pod" {
+  name                = "allow_k8s_pod_ip"
+  resource_group_name = var.resource_group_name
+  server_name         = azurerm_mysql_server.test.name
+  start_ip_address    = "<EXTERNAL.IP.ADDRESS.OF.POD>"
+  end_ip_address      = "<EXTERNAL.IP.ADDRESS.OF.POD>"
+}
+*/

@@ -25,7 +25,7 @@ Examples
 ```shell
 $ terraform init -var-file="terraform.override.tfvars" 
 $ terraform plan -out out.tfplan -var-file="terraform.override.tfvars" 
-$ terraform apply out.tfplan -var-file="terraform.override.tfvars" 
+$ terraform apply out.tfplan
 ```
 
 

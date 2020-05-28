@@ -12,7 +12,9 @@
 
 #az login --service-principal --username=${appId} --password=${password} --tenant=${tenant}
 
-KEY_VAULT=${1:-handy-crow-bw}
+# can run script like: . fetch-from-vault.sh <KEY_VAULT_NAME>
+
+KEY_VAULT=${1}
 
 function fetch_secret_from_keyvault() {
     local SECRET_NAME=$1
@@ -53,4 +55,8 @@ store_secret_from_keyvault "LN_PASS_MYSQL" "bw-server-admin-password-mysql"
 echo "# End of fetched secrets. "
 echo "# ----------------------- "
 
-# cat wordpress-deployment.yaml | envsubst | kubectl apply -f -
+# make sure you have access to your k8s cluster, if not: az aks get-credentials -g <RG-GROUP-NAME> -n <K8s-CLUSTER-NAME> 
+# to do the ENV variable substitution: cat wordpress-deployment.yaml | envsubst | kubectl apply -f -
+# after this spins up the pod, get external IP (kubectl get services) and add to mySQL firewall rule in terraform, run it, then back here to delete pod to have it recreated
+# then you can put external IP in browser to get to wordpress site
+# if you have issues, look at logs: kubectl logs -f <POD-NAME>
