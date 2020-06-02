@@ -14,6 +14,12 @@ resource "azurerm_kubernetes_cluster" "default" {
     os_disk_size_gb = 30
   }
 
+  addon_profile{
+    kube_dashboard {
+      enabled = true
+    }
+  }
+
   service_principal {
     client_id     = var.client_id
     client_secret = var.client_secret
