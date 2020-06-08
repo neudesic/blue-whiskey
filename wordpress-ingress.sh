@@ -1,8 +1,11 @@
 #Creating namespace
 kubectl create namespace wordpress
 
-#install ingress controller
+#install public ingress controller
 helm install nginx-ingress-wp stable/nginx-ingress --namespace wordpress --set controller.replicaCount=1 --set controller.nodeSelector."beta\.kubernetes\.io/os"=linux --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux
+
+#install internal ingress controller
+helm install nginx-ingress-wp-int stable/nginx-ingress --namespace wordpress -f internal-ingress.yaml --set controller.replicaCount=2 --set controller.nodeSelector."beta\.kubernetes\.io/os"=linux --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux
 
 #Createing SSL Cert in current directory
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -out aks-ingress-tls.crt -keyout aks-ingress-tls.key -subj "/CN=demo.azure.com/O=aks-ingress-tls"
@@ -12,7 +15,7 @@ kubectl create secret tls aks-ingress-tls --namespace wordpress --key aks-ingres
 kubectl apply -f cert.yaml --namespace wordpress
 
 #Fetch from VAULT to put into ENV varables
-sh ./fetch-from-vault.sh frank-dingo-bw
+sh ./fetch-from-vault.sh <YOUR-VAULT-NAME>
 
 #substitute variables, deploy wordpress
 cat wordpress-deployment.yaml | envsubst | kubectl apply -f - --namespace wordpress
