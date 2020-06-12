@@ -45,6 +45,8 @@ az extension update --name aks-preview
 # find out what nodepools a cluster has
 az aks nodepool list --resource-group <RESOURCE_GROUP>  --cluster-name <AKS_CLUSTER_NAME>
 
+# Do one of these two commands depending on if it is a new node pool or existing
+
 # Set max surge for a new node pool
 
 az aks nodepool add -n mynodepool -g <RESOURCE_GROUP> --cluster-name <AKS_CLUSTER_NAME> --max-surge 33%
