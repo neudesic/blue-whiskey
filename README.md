@@ -104,3 +104,77 @@ Press CTRL+C to close the tunnel...
 ```
 
  You should be able to access the Kubernetes dashboard at [http://127.0.0.1:8001/](http://127.0.0.1:8001/).
+
+# File Guide
+Files included in this repo
+
+## Module Folders
+```
+# cluster-config 
+Module defines kubernetes cluster. Invoked in main.tf
+
+# db-config
+Redundant module that defines postgres SQL server and database.
+
+# mysql-db-config
+Module used to define mySQL database
+
+# vault-config
+Module defining Azure Key Vault and secrets
+```
+
+## Main config files
+```
+# main.tf
+Master terraform config file. Invokes all needed modules and generates random ID's
+
+# outputs.tf
+Master output file. Displays values after apply or output commands.
+
+# terraform.tfvars
+Assigns variable values needed to authorize terraform to interact with Azure
+    
+# variables.tf
+Defines variables used in main.tf
+
+# versions.tf
+sets terraform version
+```
+
+## Monitoring
+```
+# container-azm-ms-agentconfig.yaml
+manifest file that defines the data that prometheus will scrape from Kubernetes pod logs
+```
+
+## Cert Renewal - Nginx
+```
+# demo-ingress.ps1
+# demo-ingress.sh
+Script that creates ingress controller, SSL certificates, generates Kubernets secret
+
+# demo-site-1.yaml
+# demo-site-2.yaml
+Manifest file that define two example nginx apps
+
+# internal-ingress.yaml
+Manifest file that defines an internal ingress controller
+
+# update-cert.sh
+Used to automate the renewal of an existing SSL certificate.
+```
+
+## Vault Demonstration - Wordpress Demo
+```
+# fetch-from-vault.sh
+Retrieves secrets from previously defined Azure Key Vault and assigns them as env variables. Env variables used in wordpress-deployment.yaml
+
+# wordpress-deployment.yaml
+Manaifest file that creates wordpress app, PVC, and a service
+    
+# wordpress-ingress.sh
+Main script file to create working environment. Creates internal and public ingress. Generates SSL certs. Creates kubernetes secret. Invokes fetch-from-vault.sh. Then deploys wordpress-deployment.yaml
+
+# wordpress-ingress.yaml
+Defines an internal ingress controller that is used to access wordpress application
+```
