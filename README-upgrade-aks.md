@@ -70,3 +70,5 @@ az aks upgrade --resource-group <RESOURCE_GROUP> --name <AKS_CLUSTER_NAME> --kub
 **Note**
 
 Estimated amount of time to update `each` node is 10 minutes.  
+
+![AKS Upgrade example](images/AKSUpgrade.jpg)
